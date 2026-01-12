@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Açaí Delivery - Cardápio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: #333;
+            min-height: 100vh;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .header {
+            background: white;
+            padding: 15px 0;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            color: #2575fc;
+            font-size: 28px;
+        }
+
+        .header span {
+            color: #6a11cb;
+        }
+
+        .info-bar {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            background: #f8f9fa;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 8px;
+            gap: 10px;
+        }
+
+        .menu-section {
+            background: white;
+            border-radius: 10px;
+            margin: 15px auto;
+            padding: 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            color: #6a11cb;
+            margin-bottom: 15px;
+            font-size: 22px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .produtos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .produto-card {
+            background: #fff;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .produto-card.selecionado {
+            border-color: #2575fc;
+            background: #f0f8ff;
+        }
+
+        .produto-imagem-container {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            background: #f5f5f5;
+        }
+
+        .produto-imagem {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .produto-info {
+            padding: 15px;
+        }
+
+        .produto-nome {
+            font-weight: bold;
+            font-size: 18px;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .produto-tamanho {
+            background: #2575fc;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .produto-preco {
+            font-size: 22px;
+            font-weight: bold;
+            color: #27ae60;
+            margin: 10px 0;
+        }
+
+        .btn-selecionar {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-selecionar:hover {
+            opacity: 0.9;
+        }
+
+        .btn-selecionar.selecionado {
+            background: #27ae60;
+        }
+
+        .selecionaveis-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .selecionavel-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+            background: white;
+        }
+
+        .selecionavel-card.selecionado {
+            border-color: #2575fc;
+            background: #f0f8ff;
+        }
+
+        .selecionavel-imagem-container {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 0 auto 10px;
+            background: #f5f5f5;
+            border: 2px solid #eee;
+        }
+
+        .selecionavel-imagem {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .selecionavel-nome {
+            font-weight: bold;
+            font-size: 14px;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .selecionavel-preco {
+            color: #27ae60;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .resumo-pedido {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px auto;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .resumo-title {
+            color: #6a11cb;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .total-pedido {
+            display: flex;
+            justify-content: space-between;
+            font-size: 22px;
+            font-weight: bold;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid #6a11cb;
+            color: #2c3e50;
+        }
+
+        .total-valor {
+            color: #27ae60;
+        }
+
+        .whatsapp-section {
+            text-align: center;
+            margin: 20px 0 40px;
+        }
+
+        .btn-whatsapp {
+            background: #25D366;
+            color: white;
+            border: none;
+            padding: 18px 35px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+            transition: 0.3s;
+        }
+
+        .btn-whatsapp:hover {
+            transform: scale(1.05);
+        }
+
+        .regras-box {
+            background: #fff3cd;
+            border: 2px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+
+        .regras-box h4 {
+            color: #d35400;
+            margin-bottom: 10px;
+        }
+
+        .carrinho-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .carrinho-item:last-child {
+            border-bottom: none;
+        }
+
+        .carrinho-item-info {
+            flex: 1;
+        }
+
+        .carrinho-item-nome {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .carrinho-item-tamanho {
+            background: #2575fc;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 11px;
+            display: inline-block;
+            margin-left: 5px;
+        }
+
+        .carrinho-item-preco {
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .carrinho-controles {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-quantidade {
+            background: #f0f0f0;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-quantidade:hover {
+            background: #e0e0e0;
+        }
+
+        .quantidade {
+            font-weight: bold;
+            min-width: 25px;
+            text-align: center;
+        }
+
+        .btn-remover {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .btn-remover:hover {
+            background: #ff5252;
+        }
+
+        @media (max-width: 768px) {
+            .produtos-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .selecionaveis-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .info-bar {
+                flex-direction: column;
+                text-align: center;
+                gap: 8px;
+            }
+            
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .btn-whatsapp {
+                padding: 15px 25px;
+                font-size: 16px;
+            }
+            
+            .carrinho-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .carrinho-controles {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .selecionaveis-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .produto-imagem-container {
+                height: 170px;
+            }
+            
+            .menu-section {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <h1>🍨 <span>AÇAÍ ALC </span> DELIVERY</h1>
+            <div class="info-bar">
+                <div>⏰ <strong>10h às 22h</strong></div>
+                <div>📞 <strong>(11) 961318092</strong></div>
+                <div>🚚 <strong>Entrega Grátis no predio </strong></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div id="conteudo"></div>
+        
+        <div class="resumo-pedido" id="resumoPedido" style="display: none;">
+            <h3 class="resumo-title">📋 SEU PEDIDO</h3>
+            <div id="itensPedido"></div>
+            <div class="total-pedido">
+                <span>TOTAL:</span>
+                <span class="total-valor" id="totalPedido">R$ 0,00</span>
+            </div>
+        </div>
+
+        <div class="whatsapp-section" id="whatsappSection" style="display: none;">
+            <button class="btn-whatsapp" onclick="enviarWhatsApp()">
+                📱 FINALIZAR PEDIDO NO WHATSAPP
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const WHATSAPP_NUMERO = "5511961318092";
+        
+        const IMAGENS = {
+            acai_200ml: "acai 200.jpg",
+            acai_300ml: "acai 300 ml.jpg",
+            acai_500ml: "acai 500 ml.jpg",
+            acai_nutella_200ml: "acai nutela 200.jpg",
+            acai_nutella_300ml: "acai nutela 300 ml.jpg",
+            acai_nutella_500ml: "acai nutela 500.jpg",
+            cupuacu_200ml: "cupuaçu 200.jpg",
+            cupuacu_300ml: "cupuaçu 300.jpg",
+            cupuacu_500ml: "cupuaçu 500.jpg",
+            morango: "morango.png",
+            banana: "banana.png",
+            manga: "manga.png",
+            chocoball: "chocobol.jpg",
+            sucrilhos: "sucrilhos.jpg",
+            leite_em_po: "leite ninho.jpg",
+            leite_condensado: "leite moça.jpg",
+            granola: "granola.jpg",
+            pacoca: "paçoca.jpg",
+        };
+        
+        const REGRAS = {
+            ingredientes_gratis: 4,
+            valor_adicional: 3.00
+        };
+
+        const PRODUTOS = {
+            'AÇAÍ TRADICIONAL': [
+                { id: 1, nome: 'Açaí 200ml', preco: 10.00, tamanho: '200ml', tipo: 'principal', imagem: IMAGENS.acai_200ml, categoria: 'AÇAÍ TRADICIONAL' },
+                { id: 2, nome: 'Açaí 300ml', preco: 15.00, tamanho: '300ml', tipo: 'principal', imagem: IMAGENS.acai_300ml, categoria: 'AÇAÍ TRADICIONAL' },
+                { id: 3, nome: 'Açaí 500ml', preco: 20.00, tamanho: '500ml', tipo: 'principal', imagem: IMAGENS.acai_500ml, categoria: 'AÇAÍ TRADICIONAL' }
+            ],
+            
+            'AÇAÍ COM NUTELLA': [
+                { id: 4, nome: 'Açaí c/ Nutella 200ml', preco: 15.00, tamanho: '200ml', tipo: 'principal', imagem: IMAGENS.acai_nutella_200ml, categoria: 'AÇAÍ COM NUTELLA' },
+                { id: 5, nome: 'Açaí c/ Nutella 300ml', preco: 20.00, tamanho: '300ml', tipo: 'principal', imagem: IMAGENS.acai_nutella_300ml, categoria: 'AÇAÍ COM NUTELLA' },
+                { id: 6, nome: 'Açaí c/ Nutella 500ml', preco: 25.00, tamanho: '500ml', tipo: 'principal', imagem: IMAGENS.acai_nutella_500ml, categoria: 'AÇAÍ COM NUTELLA' }
+            ],
+            
+            'CUPUAÇU': [
+                { id: 7, nome: 'Cupuaçu 200ml', preco: 10.00, tamanho: '200ml', tipo: 'principal', imagem: IMAGENS.cupuacu_200ml, categoria: 'CUPUAÇU' },
+                { id: 8, nome: 'Cupuaçu 300ml', preco: 15.00, tamanho: '300ml', tipo: 'principal', imagem: IMAGENS.cupuacu_300ml, categoria: 'CUPUAÇU' },
+                { id: 9, nome: 'Cupuaçu 500ml', preco: 20.00, tamanho: '500ml', tipo: 'principal', imagem: IMAGENS.cupuacu_500ml, categoria: 'CUPUAÇU' }
+            ],
+            
+            'FRUTAS': [
+                { id: 10, nome: 'Morango', preco: 3.00, tipo: 'fruta', imagem: IMAGENS.morango, categoria: 'FRUTAS' },
+                { id: 11, nome: 'Banana', preco: 3.00, tipo: 'fruta', imagem: IMAGENS.banana, categoria: 'FRUTAS' },
+                { id: 12, nome: 'Manga', preco: 3.00, tipo: 'fruta', imagem: IMAGENS.manga, categoria: 'FRUTAS' }
+            ],
+            
+            'INGREDIENTES': [
+                { id: 13, nome: 'Chocoball', preco: 3.00, tipo: 'ingrediente', imagem: IMAGENS.chocoball, categoria: 'INGREDIENTES' },
+                { id: 14, nome: 'Sucrilhos', preco: 3.00, tipo: 'ingrediente', imagem: IMAGENS.sucrilhos, categoria: 'INGREDIENTES' },
+                { id: 15, nome: 'Leite em Pó', preco: 3.00, tipo: 'ingrediente', imagem: IMAGENS.leite_em_po, categoria: 'INGREDIENTES' },
+                { id: 16, nome: 'Leite Condensado', preco: 3.00, tipo: 'ingrediente', imagem: IMAGENS.leite_condensado, categoria: 'INGREDIENTES' },
+                { id: 17, nome: 'Granola', preco: 3.00, tipo: 'ingrediente', imagem: IMAGENS.granola, categoria: 'INGREDIENTES' },
+                { id: 18, nome: 'Paçoca', preco: 3.00, tipo: 'ingrediente', imagem: IMAGENS.pacoca, categoria: 'INGREDIENTES' },
+                
+            ]
+        };
+
+        let pedido = {
+            principais: [],
+            frutas: [],
+            ingredientes: []
+        };
+
+        function carregarCardapio() {
+            const conteudo = document.getElementById('conteudo');
+            let html = '';
+            
+            for (const [categoriaNome, produtos] of Object.entries(PRODUTOS)) {
+                if (produtos.length === 0) continue;
+                
+                let produtosHtml = '';
+                
+                produtos.forEach(produto => {
+                    const isPrincipal = produto.tipo === 'principal';
+                    
+                    let isSelecionado = false;
+                    if (isPrincipal) {
+                        const itemCarrinho = pedido.principais.find(p => p.id === produto.id);
+                        isSelecionado = itemCarrinho && itemCarrinho.quantidade > 0;
+                    } else {
+                        isSelecionado = produto.tipo === 'fruta' ? 
+                            pedido.frutas.some(p => p.id === produto.id) :
+                            pedido.ingredientes.some(p => p.id === produto.id);
+                    }
+                    
+                    if (isPrincipal) {
+                        produtosHtml += `
+                            <div class="produto-card ${isSelecionado ? 'selecionado' : ''}" onclick="adicionarAoCarrinho(${produto.id})">
+                                <div class="produto-imagem-container">
+                                    <img src="${produto.imagem}" alt="${produto.nome}" class="produto-imagem" onerror="this.src='https://via.placeholder.com/400x200/6a11cb/FFFFFF?text=Açaí+${produto.tamanho}'">
+                                </div>
+                                <div class="produto-info">
+                                    <div class="produto-nome">${produto.nome}</div>
+                                    <div class="produto-tamanho">${produto.tamanho}</div>
+                                    <div class="produto-preco">R$ ${produto.preco.toFixed(2)}</div>
+                                    <button class="btn-selecionar ${isSelecionado ? 'selecionado' : ''}">
+                                        ${isSelecionado ? '✓ ADICIONAR MAIS' : 'ADICIONAR AO PEDIDO'}
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        produtosHtml += `
+                            <div class="selecionavel-card ${isSelecionado ? 'selecionado' : ''}" onclick="selecionarProduto(${produto.id}, '${produto.tipo}')">
+                                <div class="selecionavel-imagem-container">
+                                    <img src="${produto.imagem}" alt="${produto.nome}" class="selecionavel-imagem" onerror="this.src='https://via.placeholder.com/100/2575fc/FFFFFF?text=${produto.nome}'">
+                                </div>
+                                <div class="selecionavel-nome">${produto.nome}</div>
+                                <div class="selecionavel-preco">R$ ${produto.preco.toFixed(2)}</div>
+                            </div>
+                        `;
+                    }
+                });
+                
+                const gridClass = produtos[0].tipo === 'principal' ? 'produtos-grid' : 'selecionaveis-grid';
+                const icone = produtos[0].tipo === 'principal' ? '🍨' : produtos[0].tipo === 'fruta' ? '🍓' : '🥜';
+                
+                html += `
+                    <div class="menu-section">
+                        <h3 class="section-title">${icone} ${categoriaNome}</h3>
+                        <div class="${gridClass}">${produtosHtml}</div>
+                    </div>
+                `;
+            }
+            
+            html += `
+                <div class="menu-section">
+                    <div class="regras-box">
+                        <h4>⚠️ REGRAS DO PEDIDO:</h4>
+                        <ul>
+                            <li>Escolha <strong>QUANTOS AÇAÍS QUISER!</strong></li>
+                            <li><strong>1 FRUTA É GRÁTIS!</strong> Da 2ª em diante: R$ 3,00 cada</li>
+                            <li><strong>4 INGREDIENTES SÃO GRÁTIS!</strong> Do 5º em diante: R$ 3,00 cada</li>
+                            <li>Para remover, vá no resumo e clique em "Remover"</li>
+                        </ul>
+                    </div>
+                </div>
+            `;
+            
+            conteudo.innerHTML = html;
+            atualizarResumo();
+        }
+
+        function adicionarAoCarrinho(produtoId) {
+            let produtoEncontrado = null;
+            
+            for (const [categoria, produtos] of Object.entries(PRODUTOS)) {
+                const produto = produtos.find(p => p.id === produtoId && p.tipo === 'principal');
+                if (produto) {
+                    produtoEncontrado = produto;
+                    break;
+                }
+            }
+            
+            if (!produtoEncontrado) return;
+            
+            const index = pedido.principais.findIndex(p => p.id === produtoId);
+            
+            if (index === -1) {
+                pedido.principais.push({
+                    ...produtoEncontrado,
+                    quantidade: 1,
+                    frutas: [],
+                    ingredientes: []
+                });
+            } else {
+                pedido.principais[index].quantidade += 1;
+            }
+            
+            salvarPedidoLocalStorage();
+            carregarCardapio();
+        }
+
+        function selecionarProduto(produtoId, tipo) {
+            let produtoEncontrado = null;
+            
+            for (const [categoria, produtos] of Object.entries(PRODUTOS)) {
+                const produto = produtos.find(p => p.id === produtoId);
+                if (produto) {
+                    produtoEncontrado = produto;
+                    break;
+                }
+            }
+            
+            if (!produtoEncontrado) return;
+            
+            if (tipo === 'fruta') {
+                const index = pedido.frutas.findIndex(p => p.id === produtoId);
+                if (index === -1) {
+                    pedido.frutas.push(produtoEncontrado);
+                } else {
+                    pedido.frutas.splice(index, 1);
+                }
+            } else if (tipo === 'ingrediente') {
+                const index = pedido.ingredientes.findIndex(p => p.id === produtoId);
+                if (index === -1) {
+                    pedido.ingredientes.push(produtoEncontrado);
+                } else {
+                    pedido.ingredientes.splice(index, 1);
+                }
+            }
+            
+            salvarPedidoLocalStorage();
+            carregarCardapio();
+        }
+
+        function aumentarQuantidade(index) {
+            if (pedido.principais[index]) {
+                pedido.principais[index].quantidade += 1;
+                salvarPedidoLocalStorage();
+                carregarCardapio();
+            }
+        }
+
+        function diminuirQuantidade(index) {
+            if (pedido.principais[index]) {
+                if (pedido.principais[index].quantidade > 1) {
+                    pedido.principais[index].quantidade -= 1;
+                } else {
+                    pedido.principais.splice(index, 1);
+                }
+                salvarPedidoLocalStorage();
+                carregarCardapio();
+            }
+        }
+
+        function removerDoCarrinho(index) {
+            if (pedido.principais[index]) {
+                pedido.principais.splice(index, 1);
+                salvarPedidoLocalStorage();
+                carregarCardapio();
+            }
+        }
+
+        function calcularTotal() {
+            let total = 0;
+            
+            pedido.principais.forEach(item => {
+                total += item.preco * item.quantidade;
+            });
+            
+            if (pedido.frutas.length > 0) {
+                const frutasPagas = Math.max(0, pedido.frutas.length - 1);
+                if (frutasPagas > 0) {
+                    total += frutasPagas * REGRAS.valor_adicional;
+                }
+            }
+            
+            if (pedido.ingredientes.length > 0) {
+                const ingredientesPagos = Math.max(0, pedido.ingredientes.length - REGRAS.ingredientes_gratis);
+                if (ingredientesPagos > 0) {
+                    total += ingredientesPagos * REGRAS.valor_adicional;
+                }
+            }
+            
+            return {
+                total: total,
+                frutasPagas: Math.max(0, pedido.frutas.length - 1),
+                ingredientesPagos: Math.max(0, pedido.ingredientes.length - REGRAS.ingredientes_gratis),
+                totalAcaís: pedido.principais.reduce((sum, item) => sum + item.quantidade, 0)
+            };
+        }
+
+        function atualizarResumo() {
+            const resumo = document.getElementById('resumoPedido');
+            const whatsappSection = document.getElementById('whatsappSection');
+            const itensPedido = document.getElementById('itensPedido');
+            const totalPedido = document.getElementById('totalPedido');
+            
+            const calculo = calcularTotal();
+            
+            if (pedido.principais.length > 0) {
+                resumo.style.display = 'block';
+                whatsappSection.style.display = 'block';
+            } else {
+                resumo.style.display = 'none';
+                whatsappSection.style.display = 'none';
+                return;
+            }
+            
+            let html = '';
+            
+            pedido.principais.forEach((item, index) => {
+                html += `
+                    <div class="carrinho-item">
+                        <div class="carrinho-item-info">
+                            <div class="carrinho-item-nome">${item.nome}</div>
+                            <div style="display: flex; align-items: center; margin-top: 5px;">
+                                <span class="carrinho-item-tamanho">${item.tamanho}</span>
+                                <span class="carrinho-item-preco" style="margin-left: 10px;">
+                                    R$ ${item.preco.toFixed(2)} cada
+                                </span>
+                            </div>
+                        </div>
+                        <div class="carrinho-controles">
+                            <button class="btn-quantidade" onclick="diminuirQuantidade(${index})">-</button>
+                            <span class="quantidade">${item.quantidade}</span>
+                            <button class="btn-quantidade" onclick="aumentarQuantidade(${index})">+</button>
+                            <button class="btn-remover" onclick="removerDoCarrinho(${index})">Remover</button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            if (pedido.frutas.length > 0) {
+                html += `<div style="color:#666; margin:10px 0;"><strong>Frutas (${pedido.frutas.length} itens):</strong></div>`;
+                pedido.frutas.forEach(fruta => {
+                    html += `<div style="padding:3px 0;">+ ${fruta.nome} - R$ ${fruta.preco.toFixed(2)}</div>`;
+                });
+            }
+            
+            if (pedido.ingredientes.length > 0) {
+                html += `<div style="color:#666; margin:10px 0;"><strong>Ingredientes (${pedido.ingredientes.length} itens):</strong></div>`;
+                pedido.ingredientes.forEach(ing => {
+                    html += `<div style="padding:3px 0;">+ ${ing.nome} - R$ ${ing.preco.toFixed(2)}</div>`;
+                });
+            }
+            
+            html += `<div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #eee;">`;
+            
+            const subtotalAcais = pedido.principais.reduce((sum, item) => sum + (item.preco * item.quantidade), 0);
+            html += `<div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <span>Subtotal (${calculo.totalAcaís} açaís):</span>
+                        <span>R$ ${subtotalAcais.toFixed(2)}</span>
+                    </div>`;
+            
+            if (calculo.frutasPagas > 0) {
+                const valorFrutasExtras = calculo.frutasPagas * REGRAS.valor_adicional;
+                html += `<div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <span>Frutas extras (${calculo.frutasPagas} a R$ ${REGRAS.valor_adicional.toFixed(2)} cada):</span>
+                            <span>R$ ${valorFrutasExtras.toFixed(2)}</span>
+                        </div>`;
+            }
+            
+            if (calculo.ingredientesPagos > 0) {
+                const valorIngredientesExtras = calculo.ingredientesPagos * REGRAS.valor_adicional;
+                html += `<div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <span>Ingredientes extras (${calculo.ingredientesPagos} a R$ ${REGRAS.valor_adicional.toFixed(2)} cada):</span>
+                            <span>R$ ${valorIngredientesExtras.toFixed(2)}</span>
+                        </div>`;
+            }
+            
+            itensPedido.innerHTML = html;
+            totalPedido.textContent = `R$ ${calculo.total.toFixed(2)}`;
+        }
+
+        function salvarPedidoLocalStorage() {
+            try {
+                localStorage.setItem('pedido_acai', JSON.stringify(pedido));
+            } catch (e) {
+                console.log('Não foi possível salvar o pedido');
+            }
+        }
+
+        function carregarPedidoLocalStorage() {
+            try {
+                const pedidoSalvo = localStorage.getItem('pedido_acai');
+                if (pedidoSalvo) {
+                    const dados = JSON.parse(pedidoSalvo);
+                    
+                    if (dados.principal && !dados.principais) {
+                        dados.principais = [];
+                        if (dados.principal.id) {
+                            dados.principais.push({
+                                ...dados.principal,
+                                quantidade: 1,
+                                frutas: [],
+                                ingredientes: []
+                            });
+                        }
+                        delete dados.principal;
+                    }
+                    
+                    pedido = dados;
+                }
+            } catch (e) {
+                console.log('Não foi possível carregar pedido salvo');
+            }
+        }
+
+        // FUNÇÃO WHATSAPP 100% FUNCIONAL - VERSÃO SUPER SIMPLES
+        function enviarWhatsApp() {
+            if (pedido.principais.length === 0) {
+                alert('Adicione pelo menos um açaí ao pedido!');
+                return;
+            }
+            
+            const calculo = calcularTotal();
+            
+            // MENSAGEM SUPER SIMPLES E DIRETA
+            let mensagem = "*PEDIDO AÇAÍ ALC DELIVERY*%0A%0A";
+            
+            // AÇAÍS
+            mensagem += "*AÇAÍS:*%0A";
+            pedido.principais.forEach((item, index) => {
+                const totalItem = item.preco * item.quantidade;
+                mensagem += `${item.quantidade}x ${item.nome}%0A`;
+                mensagem += `R$ ${item.preco.toFixed(2)} cada = R$ ${totalItem.toFixed(2)}%0A%0A`;
+            });
+            
+            // FRUTAS
+            if (pedido.frutas.length > 0) {
+                mensagem += "*FRUTAS:*%0A";
+                pedido.frutas.forEach((fruta, index) => {
+                    if (index === 0) {
+                        mensagem += `${fruta.nome} (GRÁTIS)%0A`;
+                    } else {
+                        mensagem += `${fruta.nome} (R$ 3,00)%0A`;
+                    }
+                });
+                mensagem += "%0A";
+            }
+            
+            // INGREDIENTES
+            if (pedido.ingredientes.length > 0) {
+                mensagem += "*INGREDIENTES:*%0A";
+                pedido.ingredientes.forEach((ing, index) => {
+                    if (index < 4) {
+                        mensagem += `${ing.nome} (GRÁTIS)%0A`;
+                    } else {
+                        mensagem += `${ing.nome} (R$ 3,00)%0A`;
+                    }
+                });
+                mensagem += "%0A";
+            }
+            
+            // VALORES
+            mensagem += "*VALORES:*%0A";
+            
+            // Subtotal açaís
+            const subtotalAcais = pedido.principais.reduce((sum, item) => sum + (item.preco * item.quantidade), 0);
+            mensagem += `Açaís: R$ ${subtotalAcais.toFixed(2)}%0A`;
+            
+            // Frutas extras
+            if (calculo.frutasPagas > 0) {
+                const valorFrutas = calculo.frutasPagas * 3.00;
+                mensagem += `Frutas extras (${calculo.frutasPagas}x): R$ ${valorFrutas.toFixed(2)}%0A`;
+            }
+            
+            // Ingredientes extras
+            if (calculo.ingredientesPagos > 0) {
+                const valorIngredientes = calculo.ingredientesPagos * 3.00;
+                mensagem += `Ingredientes extras (${calculo.ingredientesPagos}x): R$ ${valorIngredientes.toFixed(2)}%0A`;
+            }
+            
+            // TOTAL
+            mensagem += "%0A";
+            mensagem += `*TOTAL: R$ ${calculo.total.toFixed(2)}*%0A%0A`;
+            
+            // CRIAR URL DO WHATSAPP
+            const url = `https://wa.me/${WHATSAPP_NUMERO}?text=${mensagem}`;
+            
+            // ABRIR WHATSAPP
+            window.open(url, '_blank');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            carregarPedidoLocalStorage();
+            carregarCardapio();
+        });
+    </script>
+</body>
+</html>
