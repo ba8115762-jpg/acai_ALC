@@ -269,15 +269,19 @@
         }
 
         .carrinho-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 0;
+            padding: 15px 0;
             border-bottom: 1px solid #eee;
         }
 
         .carrinho-item:last-child {
             border-bottom: none;
+        }
+
+        .carrinho-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
         }
 
         .carrinho-item-info {
@@ -287,21 +291,23 @@
         .carrinho-item-nome {
             font-weight: bold;
             color: #2c3e50;
+            font-size: 18px;
         }
 
         .carrinho-item-tamanho {
             background: #2575fc;
             color: white;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 11px;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 12px;
             display: inline-block;
-            margin-left: 5px;
+            margin-left: 10px;
         }
 
         .carrinho-item-preco {
             color: #27ae60;
             font-weight: bold;
+            font-size: 18px;
         }
 
         .carrinho-controles {
@@ -337,14 +343,134 @@
             background: #ff6b6b;
             color: white;
             border: none;
-            padding: 5px 10px;
+            padding: 8px 15px;
             border-radius: 5px;
-            font-size: 12px;
+            font-size: 14px;
             cursor: pointer;
         }
 
         .btn-remover:hover {
             background: #ff5252;
+        }
+
+        .ingredientes-container {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+
+        .ingredientes-title {
+            color: #6a11cb;
+            font-size: 16px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ingredientes-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 8px;
+        }
+
+        .ingrediente-item {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 8px;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        .ingrediente-item.gratis {
+            border-color: #27ae60;
+            background: #f0fff4;
+        }
+
+        .ingrediente-item.pago {
+            border-color: #ff6b6b;
+            background: #fff0f0;
+        }
+
+        .btn-configurar {
+            background: #6a11cb;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .btn-configurar:hover {
+            background: #5a0db5;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            color: #6a11cb;
+            font-size: 20px;
+        }
+
+        .btn-fechar {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .frutas-grid, .ingredientes-modal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .modal-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .modal-card.selecionado {
+            border-color: #2575fc;
+            background: #f0f8ff;
         }
 
         @media (max-width: 768px) {
@@ -371,15 +497,12 @@
                 font-size: 16px;
             }
             
-            .carrinho-item {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
+            .ingredientes-list {
+                grid-template-columns: repeat(2, 1fr);
             }
             
-            .carrinho-controles {
-                width: 100%;
-                justify-content: space-between;
+            .frutas-grid, .ingredientes-modal-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
 
@@ -403,9 +526,9 @@
         <div class="container">
             <h1>🍨 <span>AÇAÍ ALC </span> DELIVERY</h1>
             <div class="info-bar">
-                <div>⏰ <strong>19h às 1:00h</strong></div>
+                <div>⏰ <strong>19h às 1:00</strong></div>
                 <div>📞 <strong>(11) 961318092</strong></div>
-                <div>🚚 <strong>Entrega Grátis no predio </strong></div>
+                <div>🚚 <strong>Entrega Grátis no predio</strong></div>
             </div>
         </div>
     </div>
@@ -426,6 +549,20 @@
             <button class="btn-whatsapp" onclick="enviarWhatsApp()">
                 📱 FINALIZAR PEDIDO NO WHATSAPP
             </button>
+        </div>
+    </div>
+
+    <!-- Modal para configurar ingredientes -->
+    <div class="modal" id="modalIngredientes">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitulo">Configurar Açaí</h3>
+                <button class="btn-fechar" onclick="fecharModal()">&times;</button>
+            </div>
+            <div id="modalConteudo"></div>
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="btn-selecionar" onclick="salvarConfiguracao()">SALVAR CONFIGURAÇÃO</button>
+            </div>
         </div>
     </div>
 
@@ -453,11 +590,6 @@
             pacoca: "paçoca.jpg",
         };
         
-        const REGRAS = {
-            ingredientes_gratis: 4,
-            valor_adicional: 3.00
-        };
-
         const PRODUTOS = {
             'AÇAÍ TRADICIONAL': [
                 { id: 1, nome: 'Açaí 200ml', preco: 10.00, tamanho: '200ml', tipo: 'principal', imagem: IMAGENS.acai_200ml, categoria: 'AÇAÍ TRADICIONAL' },
@@ -489,75 +621,51 @@
                 { id: 15, nome: 'Leite em Pó', preco: 3.00, tipo: 'ingrediente', imagem: IMAGENS.leite_em_po, categoria: 'INGREDIENTES' },
                 { id: 16, nome: 'Leite Condensado', preco: 3.00, tipo: 'ingrediente', imagem: IMAGENS.leite_condensado, categoria: 'INGREDIENTES' },
                 { id: 17, nome: 'Granola', preco: 3.00, tipo: 'ingrediente', imagem: IMAGENS.granola, categoria: 'INGREDIENTES' },
-                { id: 18, nome: 'Paçoca', preco: 3.00, tipo: 'ingrediente', imagem: IMAGENS.pacoca, categoria: 'INGREDIENTES' },
-                
+                { id: 18, nome: 'Paçoca', preco: 3.00, tipo: 'ingrediente', imagem: IMAGENS.pacoca, categoria: 'INGREDIENTES' }
             ]
         };
 
+        // ESTRUTURA MODIFICADA: Cada açaí é um objeto independente
         let pedido = {
-            principais: [],
-            frutas: [],
-            ingredientes: []
+            acais: []  // Array de objetos, cada um representando um açaí
         };
+
+        let acaiEditandoIndex = null;  // Para controlar qual açaí está sendo editado
 
         function carregarCardapio() {
             const conteudo = document.getElementById('conteudo');
             let html = '';
             
+            // Seção dos Açaís
             for (const [categoriaNome, produtos] of Object.entries(PRODUTOS)) {
-                if (produtos.length === 0) continue;
+                if (produtos.length === 0 || produtos[0].tipo !== 'principal') continue;
                 
                 let produtosHtml = '';
                 
                 produtos.forEach(produto => {
-                    const isPrincipal = produto.tipo === 'principal';
+                    const isSelecionado = false; // Não mostra mais seleção direta aqui
                     
-                    let isSelecionado = false;
-                    if (isPrincipal) {
-                        const itemCarrinho = pedido.principais.find(p => p.id === produto.id);
-                        isSelecionado = itemCarrinho && itemCarrinho.quantidade > 0;
-                    } else {
-                        isSelecionado = produto.tipo === 'fruta' ? 
-                            pedido.frutas.some(p => p.id === produto.id) :
-                            pedido.ingredientes.some(p => p.id === produto.id);
-                    }
-                    
-                    if (isPrincipal) {
-                        produtosHtml += `
-                            <div class="produto-card ${isSelecionado ? 'selecionado' : ''}" onclick="adicionarAoCarrinho(${produto.id})">
-                                <div class="produto-imagem-container">
-                                    <img src="${produto.imagem}" alt="${produto.nome}" class="produto-imagem" onerror="this.src='https://via.placeholder.com/400x200/6a11cb/FFFFFF?text=Açaí+${produto.tamanho}'">
-                                </div>
-                                <div class="produto-info">
-                                    <div class="produto-nome">${produto.nome}</div>
-                                    <div class="produto-tamanho">${produto.tamanho}</div>
-                                    <div class="produto-preco">R$ ${produto.preco.toFixed(2)}</div>
-                                    <button class="btn-selecionar ${isSelecionado ? 'selecionado' : ''}">
-                                        ${isSelecionado ? '✓ ADICIONAR MAIS' : 'ADICIONAR AO PEDIDO'}
-                                    </button>
-                                </div>
+                    produtosHtml += `
+                        <div class="produto-card" onclick="adicionarAoCarrinho(${produto.id})">
+                            <div class="produto-imagem-container">
+                                <img src="${produto.imagem}" alt="${produto.nome}" class="produto-imagem" onerror="this.src='https://via.placeholder.com/400x200/6a11cb/FFFFFF?text=Açaí+${produto.tamanho}'">
                             </div>
-                        `;
-                    } else {
-                        produtosHtml += `
-                            <div class="selecionavel-card ${isSelecionado ? 'selecionado' : ''}" onclick="selecionarProduto(${produto.id}, '${produto.tipo}')">
-                                <div class="selecionavel-imagem-container">
-                                    <img src="${produto.imagem}" alt="${produto.nome}" class="selecionavel-imagem" onerror="this.src='https://via.placeholder.com/100/2575fc/FFFFFF?text=${produto.nome}'">
-                                </div>
-                                <div class="selecionavel-nome">${produto.nome}</div>
-                                <div class="selecionavel-preco">R$ ${produto.preco.toFixed(2)}</div>
+                            <div class="produto-info">
+                                <div class="produto-nome">${produto.nome}</div>
+                                <div class="produto-tamanho">${produto.tamanho}</div>
+                                <div class="produto-preco">R$ ${produto.preco.toFixed(2)}</div>
+                                <button class="btn-selecionar">
+                                    ADICIONAR AO PEDIDO
+                                </button>
                             </div>
-                        `;
-                    }
+                        </div>
+                    `;
                 });
-                
-                const gridClass = produtos[0].tipo === 'principal' ? 'produtos-grid' : 'selecionaveis-grid';
-                const icone = produtos[0].tipo === 'principal' ? '🍨' : produtos[0].tipo === 'fruta' ? '🍓' : '🥜';
                 
                 html += `
                     <div class="menu-section">
-                        <h3 class="section-title">${icone} ${categoriaNome}</h3>
-                        <div class="${gridClass}">${produtosHtml}</div>
+                        <h3 class="section-title">🍨 ${categoriaNome}</h3>
+                        <div class="produtos-grid">${produtosHtml}</div>
                     </div>
                 `;
             }
@@ -568,9 +676,9 @@
                         <h4>⚠️ REGRAS DO PEDIDO:</h4>
                         <ul>
                             <li>Escolha <strong>QUANTOS AÇAÍS QUISER!</strong></li>
-                            <li><strong>1 FRUTA É GRÁTIS!</strong> Da 2ª em diante: R$ 3,00 cada</li>
-                            <li><strong>4 INGREDIENTES SÃO GRÁTIS!</strong> Do 5º em diante: R$ 3,00 cada</li>
-                            <li>Para remover, vá no resumo e clique em "Remover"</li>
+                            <li><strong>CADA AÇAÍ TEM SUAS CONFIGURAÇÕES</strong> - Clique em "Configurar" para cada açaí</li>
+                            <li><strong>1 FRUTA GRÁTIS POR AÇAÍ!</strong> Da 2ª em diante: R$ 3,00 cada</li>
+                            <li><strong>4 INGREDIENTES GRÁTIS POR AÇAÍ!</strong> Do 5º em diante: R$ 3,00 cada</li>
                         </ul>
                     </div>
                 </div>
@@ -593,110 +701,176 @@
             
             if (!produtoEncontrado) return;
             
-            const index = pedido.principais.findIndex(p => p.id === produtoId);
-            
-            if (index === -1) {
-                pedido.principais.push({
-                    ...produtoEncontrado,
-                    quantidade: 1,
-                    frutas: [],
-                    ingredientes: []
-                });
-            } else {
-                pedido.principais[index].quantidade += 1;
-            }
-            
-            salvarPedidoLocalStorage();
-            carregarCardapio();
-        }
-
-        function selecionarProduto(produtoId, tipo) {
-            let produtoEncontrado = null;
-            
-            for (const [categoria, produtos] of Object.entries(PRODUTOS)) {
-                const produto = produtos.find(p => p.id === produtoId);
-                if (produto) {
-                    produtoEncontrado = produto;
-                    break;
-                }
-            }
-            
-            if (!produtoEncontrado) return;
-            
-            if (tipo === 'fruta') {
-                const index = pedido.frutas.findIndex(p => p.id === produtoId);
-                if (index === -1) {
-                    pedido.frutas.push(produtoEncontrado);
-                } else {
-                    pedido.frutas.splice(index, 1);
-                }
-            } else if (tipo === 'ingrediente') {
-                const index = pedido.ingredientes.findIndex(p => p.id === produtoId);
-                if (index === -1) {
-                    pedido.ingredientes.push(produtoEncontrado);
-                } else {
-                    pedido.ingredientes.splice(index, 1);
-                }
-            }
+            // Adiciona um novo açaí com estrutura vazia para ingredientes
+            pedido.acais.push({
+                id: produtoEncontrado.id,
+                nome: produtoEncontrado.nome,
+                tamanho: produtoEncontrado.tamanho,
+                preco: produtoEncontrado.preco,
+                frutas: [],      // Array de IDs das frutas selecionadas
+                ingredientes: [] // Array de IDs dos ingredientes selecionados
+            });
             
             salvarPedidoLocalStorage();
             carregarCardapio();
         }
 
         function aumentarQuantidade(index) {
-            if (pedido.principais[index]) {
-                pedido.principais[index].quantidade += 1;
-                salvarPedidoLocalStorage();
-                carregarCardapio();
-            }
-        }
-
-        function diminuirQuantidade(index) {
-            if (pedido.principais[index]) {
-                if (pedido.principais[index].quantidade > 1) {
-                    pedido.principais[index].quantidade -= 1;
-                } else {
-                    pedido.principais.splice(index, 1);
-                }
+            if (pedido.acais[index]) {
+                // Adiciona outro açaí igual
+                const acaiOriginal = pedido.acais[index];
+                pedido.acais.push({
+                    ...acaiOriginal,
+                    frutas: [...acaiOriginal.frutas],
+                    ingredientes: [...acaiOriginal.ingredientes]
+                });
                 salvarPedidoLocalStorage();
                 carregarCardapio();
             }
         }
 
         function removerDoCarrinho(index) {
-            if (pedido.principais[index]) {
-                pedido.principais.splice(index, 1);
+            if (pedido.acais[index]) {
+                pedido.acais.splice(index, 1);
                 salvarPedidoLocalStorage();
                 carregarCardapio();
             }
         }
 
-        function calcularTotal() {
-            let total = 0;
+        function configurarAcai(index) {
+            acaiEditandoIndex = index;
+            const acai = pedido.acais[index];
             
-            pedido.principais.forEach(item => {
-                total += item.preco * item.quantidade;
+            document.getElementById('modalTitulo').textContent = `Configurar: ${acai.nome}`;
+            
+            let html = `
+                <h4>🍓 FRUTAS (1 GRÁTIS):</h4>
+                <div class="frutas-grid">
+            `;
+            
+            // FRUTAS
+            const frutas = PRODUTOS['FRUTAS'];
+            frutas.forEach(fruta => {
+                const isSelecionado = acai.frutas.includes(fruta.id);
+                html += `
+                    <div class="modal-card ${isSelecionado ? 'selecionado' : ''}" 
+                         onclick="alternarSelecao(${fruta.id}, 'fruta')">
+                        <div style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden; margin: 0 auto 5px;">
+                            <img src="${fruta.imagem}" alt="${fruta.nome}" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <div style="font-weight: bold;">${fruta.nome}</div>
+                        <div style="color: ${isSelecionado && acai.frutas.indexOf(fruta.id) > 0 ? '#ff6b6b' : '#27ae60'}; font-size: 12px;">
+                            ${isSelecionado ? 
+                                (acai.frutas.indexOf(fruta.id) === 0 ? 'GRÁTIS' : 'R$ 3,00') : 
+                                'R$ 3,00'}
+                        </div>
+                    </div>
+                `;
             });
             
-            if (pedido.frutas.length > 0) {
-                const frutasPagas = Math.max(0, pedido.frutas.length - 1);
-                if (frutasPagas > 0) {
-                    total += frutasPagas * REGRAS.valor_adicional;
+            html += `</div>
+                <h4 style="margin-top: 20px;">🥜 INGREDIENTES (4 GRÁTIS):</h4>
+                <div class="ingredientes-modal-grid">
+            `;
+            
+            // INGREDIENTES
+            const ingredientes = PRODUTOS['INGREDIENTES'];
+            ingredientes.forEach(ing => {
+                const isSelecionado = acai.ingredientes.includes(ing.id);
+                html += `
+                    <div class="modal-card ${isSelecionado ? 'selecionado' : ''}" 
+                         onclick="alternarSelecao(${ing.id}, 'ingrediente')">
+                        <div style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden; margin: 0 auto 5px;">
+                            <img src="${ing.imagem}" alt="${ing.nome}" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <div style="font-weight: bold;">${ing.nome}</div>
+                        <div style="color: ${isSelecionado && acai.ingredientes.indexOf(ing.id) >= 4 ? '#ff6b6b' : '#27ae60'}; font-size: 12px;">
+                            ${isSelecionado ? 
+                                (acai.ingredientes.indexOf(ing.id) < 4 ? 'GRÁTIS' : 'R$ 3,00') : 
+                                'R$ 3,00'}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += `</div>`;
+            
+            document.getElementById('modalConteudo').innerHTML = html;
+            document.getElementById('modalIngredientes').style.display = 'flex';
+        }
+
+        function alternarSelecao(id, tipo) {
+            if (acaiEditandoIndex === null) return;
+            
+            const acai = pedido.acais[acaiEditandoIndex];
+            
+            if (tipo === 'fruta') {
+                const index = acai.frutas.indexOf(id);
+                if (index === -1) {
+                    acai.frutas.push(id);
+                } else {
+                    acai.frutas.splice(index, 1);
+                }
+            } else if (tipo === 'ingrediente') {
+                const index = acai.ingredientes.indexOf(id);
+                if (index === -1) {
+                    acai.ingredientes.push(id);
+                } else {
+                    acai.ingredientes.splice(index, 1);
                 }
             }
             
-            if (pedido.ingredientes.length > 0) {
-                const ingredientesPagos = Math.max(0, pedido.ingredientes.length - REGRAS.ingredientes_gratis);
-                if (ingredientesPagos > 0) {
-                    total += ingredientesPagos * REGRAS.valor_adicional;
+            // Atualizar visual do modal
+            configurarAcai(acaiEditandoIndex);
+        }
+
+        function salvarConfiguracao() {
+            fecharModal();
+            salvarPedidoLocalStorage();
+            carregarCardapio();
+        }
+
+        function fecharModal() {
+            document.getElementById('modalIngredientes').style.display = 'none';
+            acaiEditandoIndex = null;
+        }
+
+        function calcularTotal() {
+            let total = 0;
+            let detalhes = [];
+            
+            pedido.acais.forEach((acai, index) => {
+                let valorAcai = acai.preco;
+                let frutasExtras = 0;
+                let ingredientesExtras = 0;
+                
+                // Calcular frutas extras (primeira grátis)
+                if (acai.frutas.length > 0) {
+                    frutasExtras = Math.max(0, acai.frutas.length - 1);
+                    valorAcai += frutasExtras * 3.00;
                 }
-            }
+                
+                // Calcular ingredientes extras (4 primeiros grátis)
+                if (acai.ingredientes.length > 0) {
+                    ingredientesExtras = Math.max(0, acai.ingredientes.length - 4);
+                    valorAcai += ingredientesExtras * 3.00;
+                }
+                
+                total += valorAcai;
+                
+                detalhes.push({
+                    nome: acai.nome,
+                    valor: valorAcai,
+                    frutasExtras: frutasExtras,
+                    ingredientesExtras: ingredientesExtras,
+                    totalFrutas: acai.frutas.length,
+                    totalIngredientes: acai.ingredientes.length
+                });
+            });
             
             return {
                 total: total,
-                frutasPagas: Math.max(0, pedido.frutas.length - 1),
-                ingredientesPagos: Math.max(0, pedido.ingredientes.length - REGRAS.ingredientes_gratis),
-                totalAcaís: pedido.principais.reduce((sum, item) => sum + item.quantidade, 0)
+                detalhes: detalhes
             };
         }
 
@@ -708,7 +882,7 @@
             
             const calculo = calcularTotal();
             
-            if (pedido.principais.length > 0) {
+            if (pedido.acais.length > 0) {
                 resumo.style.display = 'block';
                 whatsappSection.style.display = 'block';
             } else {
@@ -719,65 +893,62 @@
             
             let html = '';
             
-            pedido.principais.forEach((item, index) => {
+            pedido.acais.forEach((acai, index) => {
+                const frutasNomes = acai.frutas.map(id => {
+                    const fruta = PRODUTOS['FRUTAS'].find(f => f.id === id);
+                    return fruta ? fruta.nome : '';
+                }).filter(n => n);
+                
+                const ingredientesNomes = acai.ingredientes.map(id => {
+                    const ing = PRODUTOS['INGREDIENTES'].find(i => i.id === id);
+                    return ing ? ing.nome : '';
+                }).filter(n => n);
+                
                 html += `
                     <div class="carrinho-item">
-                        <div class="carrinho-item-info">
-                            <div class="carrinho-item-nome">${item.nome}</div>
-                            <div style="display: flex; align-items: center; margin-top: 5px;">
-                                <span class="carrinho-item-tamanho">${item.tamanho}</span>
-                                <span class="carrinho-item-preco" style="margin-left: 10px;">
-                                    R$ ${item.preco.toFixed(2)} cada
+                        <div class="carrinho-item-header">
+                            <div class="carrinho-item-info">
+                                <span class="carrinho-item-nome">${acai.nome}</span>
+                                <span class="carrinho-item-tamanho">${acai.tamanho}</span>
+                                <span style="margin-left: 10px; color: #27ae60; font-weight: bold;">
+                                    R$ ${acai.preco.toFixed(2)}
                                 </span>
                             </div>
+                            <div class="carrinho-controles">
+                                <button class="btn-remover" onclick="removerDoCarrinho(${index})">Remover</button>
+                            </div>
                         </div>
-                        <div class="carrinho-controles">
-                            <button class="btn-quantidade" onclick="diminuirQuantidade(${index})">-</button>
-                            <span class="quantidade">${item.quantidade}</span>
-                            <button class="btn-quantidade" onclick="aumentarQuantidade(${index})">+</button>
-                            <button class="btn-remover" onclick="removerDoCarrinho(${index})">Remover</button>
+                        
+                        <div class="ingredientes-container">
+                            <div class="ingredientes-title">
+                                <span>🍓 FRUTAS: ${frutasNomes.length > 0 ? frutasNomes.join(', ') : 'Nenhuma'}</span>
+                                <button class="btn-configurar" onclick="configurarAcai(${index})">
+                                    ${frutasNomes.length > 0 || ingredientesNomes.length > 0 ? 'EDITAR' : 'CONFIGURAR'}
+                                </button>
+                            </div>
+                            
+                            <div class="ingredientes-title" style="margin-top: 10px;">
+                                <span>🥜 INGREDIENTES: ${ingredientesNomes.length > 0 ? ingredientesNomes.join(', ') : 'Nenhum'}</span>
+                            </div>
+                            
+                            ${frutasNomes.length > 0 || ingredientesNomes.length > 0 ? `
+                                <div class="ingredientes-list">
+                                    ${frutasNomes.map((fruta, i) => `
+                                        <div class="ingrediente-item ${i === 0 ? 'gratis' : 'pago'}">
+                                            ${fruta} ${i === 0 ? '(GRÁTIS)' : '(R$ 3,00)'}
+                                        </div>
+                                    `).join('')}
+                                    ${ingredientesNomes.map((ing, i) => `
+                                        <div class="ingrediente-item ${i < 4 ? 'gratis' : 'pago'}">
+                                            ${ing} ${i < 4 ? '(GRÁTIS)' : '(R$ 3,00)'}
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            ` : ''}
                         </div>
                     </div>
                 `;
             });
-            
-            if (pedido.frutas.length > 0) {
-                html += `<div style="color:#666; margin:10px 0;"><strong>Frutas (${pedido.frutas.length} itens):</strong></div>`;
-                pedido.frutas.forEach(fruta => {
-                    html += `<div style="padding:3px 0;">+ ${fruta.nome} - R$ ${fruta.preco.toFixed(2)}</div>`;
-                });
-            }
-            
-            if (pedido.ingredientes.length > 0) {
-                html += `<div style="color:#666; margin:10px 0;"><strong>Ingredientes (${pedido.ingredientes.length} itens):</strong></div>`;
-                pedido.ingredientes.forEach(ing => {
-                    html += `<div style="padding:3px 0;">+ ${ing.nome} - R$ ${ing.preco.toFixed(2)}</div>`;
-                });
-            }
-            
-            html += `<div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #eee;">`;
-            
-            const subtotalAcais = pedido.principais.reduce((sum, item) => sum + (item.preco * item.quantidade), 0);
-            html += `<div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                        <span>Subtotal (${calculo.totalAcaís} açaís):</span>
-                        <span>R$ ${subtotalAcais.toFixed(2)}</span>
-                    </div>`;
-            
-            if (calculo.frutasPagas > 0) {
-                const valorFrutasExtras = calculo.frutasPagas * REGRAS.valor_adicional;
-                html += `<div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                            <span>Frutas extras (${calculo.frutasPagas} a R$ ${REGRAS.valor_adicional.toFixed(2)} cada):</span>
-                            <span>R$ ${valorFrutasExtras.toFixed(2)}</span>
-                        </div>`;
-            }
-            
-            if (calculo.ingredientesPagos > 0) {
-                const valorIngredientesExtras = calculo.ingredientesPagos * REGRAS.valor_adicional;
-                html += `<div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                            <span>Ingredientes extras (${calculo.ingredientesPagos} a R$ ${REGRAS.valor_adicional.toFixed(2)} cada):</span>
-                            <span>R$ ${valorIngredientesExtras.toFixed(2)}</span>
-                        </div>`;
-            }
             
             itensPedido.innerHTML = html;
             totalPedido.textContent = `R$ ${calculo.total.toFixed(2)}`;
@@ -797,17 +968,19 @@
                 if (pedidoSalvo) {
                     const dados = JSON.parse(pedidoSalvo);
                     
-                    if (dados.principal && !dados.principais) {
-                        dados.principais = [];
-                        if (dados.principal.id) {
-                            dados.principais.push({
-                                ...dados.principal,
-                                quantidade: 1,
-                                frutas: [],
-                                ingredientes: []
-                            });
-                        }
-                        delete dados.principal;
+                    // Converter estrutura antiga para nova se necessário
+                    if (dados.principais && !dados.acais) {
+                        dados.acais = dados.principais.map(p => ({
+                            id: p.id,
+                            nome: p.nome,
+                            tamanho: p.tamanho,
+                            preco: p.preco,
+                            frutas: p.frutas || [],
+                            ingredientes: p.ingredientes || []
+                        }));
+                        delete dados.principais;
+                        delete dados.frutas;
+                        delete dados.ingredientes;
                     }
                     
                     pedido = dados;
@@ -817,85 +990,95 @@
             }
         }
 
-        // FUNÇÃO WHATSAPP 100% FUNCIONAL - VERSÃO SUPER SIMPLES
         function enviarWhatsApp() {
-            if (pedido.principais.length === 0) {
+            if (pedido.acais.length === 0) {
                 alert('Adicione pelo menos um açaí ao pedido!');
                 return;
             }
             
             const calculo = calcularTotal();
             
-            // MENSAGEM SUPER SIMPLES E DIRETA
             let mensagem = "*PEDIDO AÇAÍ ALC DELIVERY*%0A%0A";
             
-            // AÇAÍS
-            mensagem += "*AÇAÍS:*%0A";
-            pedido.principais.forEach((item, index) => {
-                const totalItem = item.preco * item.quantidade;
-                mensagem += `${item.quantidade}x ${item.nome}%0A`;
-                mensagem += `R$ ${item.preco.toFixed(2)} cada = R$ ${totalItem.toFixed(2)}%0A%0A`;
+            mensagem += "*DETALHES DO PEDIDO:*%0A%0A";
+            
+            // Para cada açaí no pedido
+            pedido.acais.forEach((acai, index) => {
+                const frutasNomes = acai.frutas.map(id => {
+                    const fruta = PRODUTOS['FRUTAS'].find(f => f.id === id);
+                    return fruta ? fruta.nome : '';
+                }).filter(n => n);
+                
+                const ingredientesNomes = acai.ingredientes.map(id => {
+                    const ing = PRODUTOS['INGREDIENTES'].find(i => i.id === id);
+                    return ing ? ing.nome : '';
+                }).filter(n => n);
+                
+                mensagem += `*AÇAÍ ${index + 1}: ${acai.nome}*%0A`;
+                mensagem += `Tamanho: ${acai.tamanho}%0A`;
+                mensagem += `Valor base: R$ ${acai.preco.toFixed(2)}%0A`;
+                
+                // Frutas
+                if (frutasNomes.length > 0) {
+                    mensagem += `Frutas:%0A`;
+                    frutasNomes.forEach((fruta, i) => {
+                        mensagem += `  • ${fruta} ${i === 0 ? '(GRÁTIS)' : '(R$ 3,00)'}%0A`;
+                    });
+                } else {
+                    mensagem += `Frutas: Nenhuma%0A`;
+                }
+                
+                // Ingredientes
+                if (ingredientesNomes.length > 0) {
+                    mensagem += `Ingredientes:%0A`;
+                    ingredientesNomes.forEach((ing, i) => {
+                        mensagem += `  • ${ing} ${i < 4 ? '(GRÁTIS)' : '(R$ 3,00)'}%0A`;
+                    });
+                } else {
+                    mensagem += `Ingredientes: Nenhum%0A`;
+                }
+                
+                // Calcular valor deste açaí específico
+                let valorEsteAcai = acai.preco;
+                const frutasExtras = Math.max(0, acai.frutas.length - 1);
+                const ingredientesExtras = Math.max(0, acai.ingredientes.length - 4);
+                valorEsteAcai += frutasExtras * 3.00;
+                valorEsteAcai += ingredientesExtras * 3.00;
+                
+                if (frutasExtras > 0) {
+                    mensagem += `Frutas extras: ${frutasExtras} x R$ 3,00%0A`;
+                }
+                if (ingredientesExtras > 0) {
+                    mensagem += `Ingredientes extras: ${ingredientesExtras} x R$ 3,00%0A`;
+                }
+                
+                mensagem += `*Total deste açaí: R$ ${valorEsteAcai.toFixed(2)}*%0A%0A`;
             });
             
-            // FRUTAS
-            if (pedido.frutas.length > 0) {
-                mensagem += "*FRUTAS:*%0A";
-                pedido.frutas.forEach((fruta, index) => {
-                    if (index === 0) {
-                        mensagem += `${fruta.nome} (GRÁTIS)%0A`;
-                    } else {
-                        mensagem += `${fruta.nome} (R$ 3,00)%0A`;
-                    }
-                });
-                mensagem += "%0A";
-            }
+            mensagem += "*RESUMO DO PEDIDO:*%0A";
+            mensagem += `Quantidade de açaís: ${pedido.acais.length}%0A`;
+            mensagem += `%0A`;
+            mensagem += `*TOTAL DO PEDIDO: R$ ${calculo.total.toFixed(2)}*%0A%0A`;
             
-            // INGREDIENTES
-            if (pedido.ingredientes.length > 0) {
-                mensagem += "*INGREDIENTES:*%0A";
-                pedido.ingredientes.forEach((ing, index) => {
-                    if (index < 4) {
-                        mensagem += `${ing.nome} (GRÁTIS)%0A`;
-                    } else {
-                        mensagem += `${ing.nome} (R$ 3,00)%0A`;
-                    }
-                });
-                mensagem += "%0A";
-            }
+            mensagem += "*INFORMAÇÕES DO CLIENTE:*%0A";
+            mensagem += "Por favor, envie seu nome, endereço e telefone após esta mensagem.%0A%0A";
             
-            // VALORES
-            mensagem += "*VALORES:*%0A";
+            mensagem += "*Obrigado pelo seu pedido!* 🍨";
             
-            // Subtotal açaís
-            const subtotalAcais = pedido.principais.reduce((sum, item) => sum + (item.preco * item.quantidade), 0);
-            mensagem += `Açaís: R$ ${subtotalAcais.toFixed(2)}%0A`;
-            
-            // Frutas extras
-            if (calculo.frutasPagas > 0) {
-                const valorFrutas = calculo.frutasPagas * 3.00;
-                mensagem += `Frutas extras (${calculo.frutasPagas}x): R$ ${valorFrutas.toFixed(2)}%0A`;
-            }
-            
-            // Ingredientes extras
-            if (calculo.ingredientesPagos > 0) {
-                const valorIngredientes = calculo.ingredientesPagos * 3.00;
-                mensagem += `Ingredientes extras (${calculo.ingredientesPagos}x): R$ ${valorIngredientes.toFixed(2)}%0A`;
-            }
-            
-            // TOTAL
-            mensagem += "%0A";
-            mensagem += `*TOTAL: R$ ${calculo.total.toFixed(2)}*%0A%0A`;
-            
-            // CRIAR URL DO WHATSAPP
             const url = `https://wa.me/${WHATSAPP_NUMERO}?text=${mensagem}`;
-            
-            // ABRIR WHATSAPP
             window.open(url, '_blank');
         }
 
         document.addEventListener('DOMContentLoaded', function() {
             carregarPedidoLocalStorage();
             carregarCardapio();
+            
+            // Fechar modal ao clicar fora
+            document.getElementById('modalIngredientes').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    fecharModal();
+                }
+            });
         });
     </script>
 </body>
